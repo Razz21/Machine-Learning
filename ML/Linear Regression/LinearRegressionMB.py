@@ -29,9 +29,8 @@ class LinearRegressionMB(object):
          """
         self.cost_ = []
 
-        self.w_ = np.zeros(1 + X.shape[1])
-        self.coef_ = self.w_[1:]
-        self.intercept_ = self.w_[:1]
+        self.coef_ = np.zeros(1 + X.shape[1])[1:]
+        self.intercept_ = np.zeros(1 + X.shape[1])[:1]
 
         for epoch in range(self.n_iter):
             # shuffle data
@@ -69,8 +68,6 @@ class LinearRegressionMB(object):
             Returns predicted values.
         """
         return self.net_input(X)
-
-
 
     def score(self, X, y, sample_weight=None):
         # copied from sklearn LinearRegression model
