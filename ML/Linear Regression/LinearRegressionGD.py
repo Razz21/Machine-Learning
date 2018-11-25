@@ -4,6 +4,7 @@
 
 import numpy as np
 
+
 class LinearRegressionGD(object):
     """
     Gradient Descent implementation of Linear Regression algorithm,
@@ -30,20 +31,22 @@ class LinearRegressionGD(object):
         -------
         self : returns an instance of self.
         """
-        self.w_ = np.zeros(1 + X.shape[1])
+
+        self.coef_ = np.zeros(1 + X.shape[1])[1:]
+        self.intercept_= np.zeros(1 + X.shape[1])[:1]
         self.cost_ = []
         for i in range(self.n_iter):
             output = self.net_input(X)
             errors = (y - output)
-            self.w_[1:] += self.eta * X.T.dot(errors)
-            self.w_[0] += self.eta * errors.sum()
+            self.coef_ += self.eta * X.T.dot(errors)
+            self.intercept_ += self.eta * errors.sum()
             cost = (errors ** 2).sum() / 2.0
             self.cost_.append(cost)
         return self
 
 
     def net_input(self, X):
-        return np.dot(X, self.w_[1:]) + self.w_[0]
+        return np.dot(X, self.coef_) + self.intercept_
 
 
     def predict(self, X):
