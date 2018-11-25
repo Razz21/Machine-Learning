@@ -7,7 +7,7 @@ class LinearRegressionMB(object):
     ready to use with Sci-Kit Learn
     """
 
-    def __init__(self, n_iter=50, minibatch_size=20, eta=0.001):
+    def __init__(self, n_iter = 50, minibatch_size=20, eta=0.001):
         self.n_iter = n_iter
         self.minibatch_size = minibatch_size
         self.eta = eta
@@ -37,7 +37,7 @@ class LinearRegressionMB(object):
             shuffled_indices = np.random.permutation(len(X))
             Xb = X[shuffled_indices]
             yb = y[shuffled_indices]
-
+            self.c_ = []
             for i in range(0, len(X), self.minibatch_size):
                 xi = Xb[i: i + self.minibatch_size]
                 yi = yb.flatten()[i: i + self.minibatch_size]
@@ -47,7 +47,8 @@ class LinearRegressionMB(object):
                 self.coef_ += self.eta * xi.T.dot(errors)
                 self.intercept_ += self.eta * errors.sum()
                 cost = (errors ** 2).sum() / 2.0
-                self.cost_.append(cost)
+                self.c_.append(cost)
+            self.cost_.append(np.mean(self.c_))
 
         return self
 
