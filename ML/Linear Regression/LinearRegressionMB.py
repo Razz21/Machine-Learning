@@ -3,11 +3,37 @@ import numpy as np
 
 class LinearRegressionMB(object):
     """
-    Mini-Batch implementation of Linear Regression algorithm,
-    ready to use with Sci-Kit Learn
+    Mini-Batch Gradient Descent implementation of Linear Regression model
+
+    Parameters
+    ----------
+
+    eta : float, optional, default=0.001
+        learning rate
+
+    n_iter: int, optional, default=50
+        Number of iterations (epochs)
+
+    minibatch_size : int, optional, default=20
+        Size of data samples (mini batches) used to calculate gradient in each iteration
+
+    Attributes
+    ----------
+
+    coef_ : array, shape (n_features,)
+        Weights assigned to the features.
+
+    intercept_ : array, shape (1,)
+        The intercept term.
+
+    cost_ : array, shape (n_iter,)
+        Mean cost after each iteration (epoch)
+
+    c_  : array, shape (minibatch_size,)
+        Cost calculated after exery sample
     """
 
-    def __init__(self, n_iter = 50, minibatch_size=20, eta=0.001):
+    def __init__(self, n_iter=50, minibatch_size=20, eta=0.001):
         self.n_iter = n_iter
         self.minibatch_size = minibatch_size
         self.eta = eta
@@ -21,7 +47,7 @@ class LinearRegressionMB(object):
              Training data
 
          y : array_like, shape (n_samples, n_targets)
-             Target values. Will be cast to X's dtype if necessary
+             Target values.
 
          Returns
          -------
@@ -53,6 +79,17 @@ class LinearRegressionMB(object):
         return self
 
     def net_input(self, X):
+        """Predict values using the linear model
+
+        Parameters
+        ----------
+        X : array-like, shape (n_samples, n_features)
+
+        Returns
+        -------
+        array, shape (n_samples,)
+            Predicted target values per element in X.
+        """
         return np.dot(X, self.coef_) + self.intercept_
 
     def predict(self, X):
@@ -65,7 +102,7 @@ class LinearRegressionMB(object):
 
         Returns
         -------
-        C : array, shape (n_samples,)
+        array, shape (n_samples,)
             Returns predicted values.
         """
         return self.net_input(X)
@@ -77,10 +114,7 @@ class LinearRegressionMB(object):
         Parameters
         ----------
         X : array-like, shape = (n_samples, n_features)
-            Test samples. For some estimators this may be a
-            precomputed kernel matrix instead, shape = (n_samples,
-            n_samples_fitted], where n_samples_fitted is the number of
-            samples used in the fitting for the estimator.
+            Test samples.
 
         y : array-like, shape = (n_samples) or (n_samples, n_outputs)
             True values for X.
