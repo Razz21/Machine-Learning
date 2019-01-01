@@ -3,9 +3,11 @@
 
 
 import numpy as np
+from sklearn.base import BaseEstimator,RegressorMixin
+#BaseEstimator class add get_params/set_params method for estimators in sckit-learn
+#RegressionMixin class add score method for regression estimators in scikit-learn
 
-
-class LinearRegressionGD(object):
+class LinearRegressionGD(BaseEstimator,RegressorMixin):
     """
     Batch Gradient Descent implementation of Linear Regression model
 
@@ -93,28 +95,4 @@ class LinearRegressionGD(object):
             Returns predicted values.
         """
         return self.net_input(X)
-
-    def score(self, X, y, sample_weight=None):
-        # copied from sklearn LinearRegression model
-        """Returns the coefficient of determination R^2 of the prediction.
-
-        Parameters
-        ----------
-        X : array-like, shape = (n_samples, n_features)
-            Test samples.
-
-        y : array-like, shape = (n_samples) or (n_samples, n_outputs)
-            True values for X.
-
-        sample_weight : array-like, shape = [n_samples], optional
-            Sample weights.
-
-        Returns
-        -------
-        score : float
-            R^2 of self.predict(X) wrt. y.
-        """
-
-        from sklearn.metrics import r2_score
-        return r2_score(y, self.predict(X), sample_weight=sample_weight,
-                        multioutput='variance_weighted')
+ 
